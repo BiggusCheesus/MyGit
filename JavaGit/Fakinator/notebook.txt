@@ -1,0 +1,17 @@
+To create new file:
+	-make new file
+	-save contents of old file into ArrayList
+		-simple while loop (hasNext)
+	-delete old file
+	-write into new file until guess
+	-write question
+	-write character
+	-write rest of file, starting with guess
+
+To edit existing file:
+	-traverses file until guess
+	-saves guess and all following until end of line into an ArrayList
+	-trims guess and all following
+	-writes question
+	-writes character
+	-writes contents of ArrayList

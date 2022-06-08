@@ -1,0 +1,1 @@
+This project contains the projects assigned by "Building Java Programs- A BACK TO BASICS APRPROACH 5th edition" by Stuart Reges and Marty Stepp.
