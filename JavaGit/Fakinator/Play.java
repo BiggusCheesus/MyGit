@@ -8,16 +8,19 @@ public class Play{
     public static AttributeTreeNode tracker;
     public static Scanner SCAN = new Scanner(System.in);
     public static String guess;
+    public static File file;
+    public static File tempFile;
     public static FileWriter myWriter;
     public static String[] questions;
     public static boolean guessed = false;
 
     public static void setup()throws FileNotFoundException, IOException{
-        File file = new File("/Users/biggycheese/MyGit/JavaGit/Fakinator/data.txt");
+        file = new File("/Users/biggycheese/MyGit/JavaGit/Fakinator/data.txt");
+        tempFile = new File(file.getAbsolutePath() + ".tmp");
         Scanner scan = new Scanner(file);
         tracker = TreeHelper.buildTree(scan);
         scan.close();
-        myWriter = new FileWriter(file, true);
+        myWriter = new FileWriter(tempFile, true);
         questions = new String[TreeHelper.getQuestions().size()];
         for(int i = 0; i < TreeHelper.getQuestions().size(); i++){
             questions[i] = TreeHelper.getQuestions().get(i);
@@ -45,9 +48,28 @@ public class Play{
             guessed = true;
         }
     }
-    public static void game(){
+    public static void editFile(String character, String question) throws FileNotFoundException{
+            Scanner scan = new Scanner(file);
+            try{
+                myWriter.write(scan.nextLine());
+                while(scan.hasNextLine()  ){
+                    String temp = scan.nextLine();
+                    if(temp.equals(guess)){
+                        myWriter.write("\n" + question);
+                        myWriter.write("\n" + character);
+                    }
+                    myWriter.write("\n" + temp);
+                }
+                file.delete();
+                tempFile.renameTo(file);
+                myWriter.close();
+            } catch ( IOException e){
+                System.out.println("shit");
+            }
+    }
+    public static void game() throws FileNotFoundException{
         for(int i = 0; i < questions.length; i++){
-            System.out.println("Is your character " + questions[i] +"?");
+            System.out.println("Is your character " + questions[i]);
             answer();
             if(guessed){
                 break;
@@ -58,24 +80,20 @@ public class Play{
         if(input.equals("no")){
             System.out.println("What is the name of your character?");
             input = SCAN.nextLine();
-            try{
-                myWriter.write("\n" + input);
-            } catch ( IOException e){
-                System.out.println("shit");
-            }
             System.out.println("What question would help identify your character?");
-            input = SCAN.nextLine();
-            try{
-                myWriter.write("\n" + input);
-                myWriter.close();
-            } catch ( IOException e){
-                System.out.println("shit");
-            }
+            String input2 = SCAN.nextLine();
+            editFile(input, input2);
         }
-
+        
     }
+
     public static void main(String[] args) throws FileNotFoundException, IOException{
         setup();
         game();
+        System.out.println("Would you like to play again?");
+        String input = SCAN.nextLine();
+        if(input.equals("yes")){
+           main(args); 
+        }
     }
 }
