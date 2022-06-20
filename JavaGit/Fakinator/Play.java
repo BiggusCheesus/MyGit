@@ -15,7 +15,7 @@ public class Play{
     public static boolean guessed = false;
 
     public static void setup()throws FileNotFoundException, IOException{
-        file = new File("/Users/biggycheese/MyGit/JavaGit/Fakinator/data.txt");
+        file = new File("/Users/biggycheese/Desktop/MyGit/JavaGit/Fakinator/data.txt");
         tempFile = new File(file.getAbsolutePath() + ".tmp");
         Scanner scan = new Scanner(file);
         tracker = TreeHelper.buildTree(scan);
